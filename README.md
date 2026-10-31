@@ -5,6 +5,6 @@
 
 - [دليل التثبيت والتجربة من الهاتف](README.ar.md)
 - [نتائج الاختبارات وحدود التحقق](VERIFICATION.ar.md)
-- [بناء التطبيق وتنزيل APK](../../actions)
+- [بناء التطبيق وتنزيل APK](https://github.com/Zxcvbnmqwfghj/Audio-Copier/actions)
 
 المصدر الحالي موجود في مجلد `app` والملفات المجاورة مباشرة. الحزمة القديمة `audio-copier-source.zip` و`stage3-sources.json` محفوظتان للرجوع فقط، ولا يستخدمهما البناء الجديد.
