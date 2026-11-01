@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.LocalActivityResultRegistryOwner
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -45,6 +46,9 @@ import java.util.*
 fun CopierScreen(model: CopierViewModel = viewModel()) {
     val state by model.state.collectAsStateWithLifecycle()
     val base = LocalContext.current
+    // A configuration context cannot lead launchers back to their hosting Activity.
+    // Capture the registry before replacing LocalContext for the selected language.
+    val resultRegistryOwner = checkNotNull(LocalActivityResultRegistryOwner.current)
     val deviceConfiguration = LocalConfiguration.current
     val dark = when (state.settings.theme) { "dark" -> true; "light" -> false; else -> isSystemInDarkTheme() }
     val locale = state.settings.language.takeIf { it.isNotBlank() }?.let(::Locale) ?: deviceConfiguration.locales[0]
@@ -68,6 +72,7 @@ fun CopierScreen(model: CopierViewModel = viewModel()) {
         }
     }
     CompositionLocalProvider(
+        LocalActivityResultRegistryOwner provides resultRegistryOwner,
         LocalContext provides localized, LocalConfiguration provides configuration,
         LocalLayoutDirection provides if (configuration.layoutDirection == android.view.View.LAYOUT_DIRECTION_RTL) LayoutDirection.Rtl else LayoutDirection.Ltr,
     ) {
